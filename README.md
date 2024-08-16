@@ -23,31 +23,34 @@ Used to create the actual symlinks that make this work.
 sudo pacman -S stow
 ```
 
-### AUR
-
-Some packages need to be downloaded from the AUR. Consider using yay or paru. This README will assume yay is used. 
-
-#### powerlevel10k
-
-Makes zsh look pretty and has git integration and all kinds of cool stuff.
-```
-yay -S zsh-theme-powerlevel10k-git
-```
-
-### Other requirements 
-
-Some other requirements to use these dotfiles properly. 
-
-#### oh-my-zsh
+### oh-my-zsh
 
 Used to manage the plugins zsh uses.
 First, install oh-my-zsh from their GitHub at https://github.com/ohmyzsh/ohmyzsh 
 ```
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
-Then remove the custom directory. It will be replaced by a symlink to the custom ohmyzsh directory in this repo.
+Then install the following plugins. 
+
+#### powerlevel10k
+
+Installed from https://github.com/romkatv/powerlevel10k
 ```
-rm -rf ~/.oh-my-zsh/custom/
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+```
+
+#### zsh-autosuggestions
+
+Installed from https://github.com/zsh-users/zsh-autosuggestions
+```
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+```
+
+#### zsh-syntax-highlighting
+
+Installed from https://github.com/zsh-users/zsh-syntax-highlighting
+```
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
 ## Installation
