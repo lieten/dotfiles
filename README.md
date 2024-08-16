@@ -13,14 +13,14 @@ These are the required packages installable with pacman.
 #### git (duh)
 
 ```
-$ sudo pacman -S git
+sudo pacman -S git
 ```
 
 #### GNU stow 
 
 Used to create the actual symlinks that make this work.
 ```
-$ sudo pacman -S stow
+sudo pacman -S stow
 ```
 
 ### AUR
@@ -31,7 +31,7 @@ Some packages need to be downloaded from the AUR. Consider using yay or paru. Th
 
 Makes zsh look pretty and has git integration and all kinds of cool stuff.
 ```
-$ yay -S zsh-theme-powerlevel10k-git
+yay -S zsh-theme-powerlevel10k-git
 ```
 
 ### Other requirements 
@@ -46,13 +46,13 @@ Used to manage the plugins zsh uses.
 
 Clone the dotfiles repo (this repo) in your $HOME directory using ssh (assumes ssh key setup). 
 ```
-$ git clone git@github.com:lieten/dotfiles.git
-$ cd dotfiles
+git clone git@github.com:lieten/dotfiles.git
+cd dotfiles
 ```
 
 Then use GNU stow to create the symlinks.
 ```
-$ stow .
+stow .
 ```
 
 ## Honorable Mention
