@@ -41,6 +41,14 @@ Some other requirements to use these dotfiles properly.
 #### oh-my-zsh
 
 Used to manage the plugins zsh uses.
+First, install oh-my-zsh from their GitHub at https://github.com/ohmyzsh/ohmyzsh 
+```
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+Then remove the custom directory. It will be replaced by a symlink to the custom ohmyzsh directory in this repo.
+```
+rm -rf ~/.oh-my-zsh/custom/
+```
 
 ## Installation
 
