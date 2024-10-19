@@ -135,3 +135,17 @@ export LANG=en_US.UTF-8
 # SYSTEMD EDITOR
 #
 export SYSTEMD_EDITOR=vim
+#
+# JAVA HOME
+#
+export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
+#export PATH = $JAVA_HOME/bin:$PATH
+
+#
+# STARTUP PROMPT
+#
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+# funny boomer animal quote
+#fortune | cowthink -f $(find $(readlink /usr/share/cows) -type f | shuf -n 1) | lolcat -f
+#cowfortune
+#fastfetch | lolcat -f
