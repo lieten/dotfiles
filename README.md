@@ -69,3 +69,8 @@ stow .
 ## Honorable Mention
 
 This setup is inspired by this youtube video: https://www.youtube.com/watch?v=y6XCebnB9gs
+
+## TODOs
+
+- replace stow with general setup script (on experimental branch)
+- current temporary setup script does not symlink modular config
