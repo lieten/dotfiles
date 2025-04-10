@@ -123,8 +123,8 @@ bindkey '^H' backward-kill-word # ctrl backspace
 #
 # CUSTOM SETTINGS
 #
-unsetopt autocd
-setopt noautocd
+#unsetopt autocd
+#setopt noautocd
 
 #
 # LANG/LOCALE
