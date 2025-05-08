@@ -24,9 +24,9 @@
         "battery",
         "pulseaudio",
         "pulseaudio#microphone",
-        //"backlight",
+        "backlight",
         "tray",
-        "custom/updates",
+        //"custom/updates",
         //"clock",
         //"custom/myhyprv",
         "custom/light_dark"
