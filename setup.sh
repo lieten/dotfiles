@@ -21,15 +21,6 @@ prep_stage=(
   pacman-contrib
 )
 
-#software for nvidia GPU only
-nvidia_stage=(
-  linux-headers
-  nvidia-dkms
-  nvidia-settings
-  libva
-  libva-nvidia-driver-git
-)
-
 #the main packages
 install_stage=(
   kitty
@@ -72,6 +63,7 @@ install_stage=(
   neovim
   zsh
   hyprlock
+  htop
 )
 
 for str in ${myArray[@]}; do
@@ -139,13 +131,6 @@ else
   exit
 fi
 
-# find the Nvidia GPU
-if lspci -k | grep -A 2 -E "(VGA|3D)" | grep -iq nvidia; then
-  ISNVIDIA=true
-else
-  ISNVIDIA=false
-fi
-
 #### Check for package manager ####
 if [ ! -f /sbin/yay ]; then
   echo -en "$CNT - Configuring yay."
@@ -178,19 +163,6 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
   for SOFTWR in ${prep_stage[@]}; do
     install_software $SOFTWR
   done
-
-  # Setup Nvidia if it was found
-  if [[ "$ISNVIDIA" == true ]]; then
-    echo -e "$CNT - Nvidia GPU support setup stage, this may take a while..."
-    for SOFTWR in ${nvidia_stage[@]}; do
-      install_software $SOFTWR
-    done
-
-    # update config
-    sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf
-    sudo mkinitcpio --config /etc/mkinitcpio.conf --generate /boot/initramfs-custom.img
-    echo -e "options nvidia-drm modeset=1" | sudo tee -a /etc/modprobe.d/nvidia.conf &>>$INSTLOG
-  fi
 
   # Install the correct hyprland version
   echo -e "$CNT - Installing Hyprland, this may take a while..."
