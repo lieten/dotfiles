@@ -175,9 +175,9 @@
 
     "backlight": {
         "device": "intel_backlight",
-        "format": "{icon}",
+        "format-alt": "{icon}",
         "format-alt-click": "click-right",
-        "format-alt": "{icon} {percent}%",
+        "format": "{icon} {percent}%",
         "format-icons": ["󰃞", "󰃟", "󰃠"],
         "on-scroll-up": "~/.config/waybar/scripts/brightness --inc",
         "on-scroll-down": "~/.config/waybar/scripts/brightness --dec"
