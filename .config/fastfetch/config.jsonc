@@ -38,7 +38,7 @@
       "title": "red" // Title color
     },
     "key": {
-      "width": 12, // Aligns keys to this width
+      "width": 25, // Aligns keys to this width
       "type": "string" // string, icon, both, or none
     },
     "bar": {
