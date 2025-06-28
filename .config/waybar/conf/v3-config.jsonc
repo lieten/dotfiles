@@ -12,6 +12,8 @@
         "custom/power_btn",
         //"custom/lock_screen",
         "hyprland/workspaces",
+        "custom/myhyprv",
+        "custom/updates",
         "custom/weather"
         //"wlr/taskbar"
     ],
