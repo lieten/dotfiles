@@ -19,8 +19,16 @@
     "cursor",
     "terminal",
     "terminalfont",
-    "cpu",
-    "gpu",
+    {
+      "type": "cpu",
+      "format": "{name} ({cores-physical}C/{cores-logical}T) @ {freq-max}, {temperature}",
+      "temp": true
+    },
+    {
+      "type": "gpu",
+      "format": "{name}, {type}, {temperature}",
+      "temp": true
+    },
     "memory",
     "swap",
     "disk",
@@ -28,8 +36,8 @@
     "battery",
     "poweradapter",
     "locale",
-    "break",
-    "colors"
+    "break"
+    //"colors"
   ],
   "display": {
     "separator": ": ", // Separator between keys and values
