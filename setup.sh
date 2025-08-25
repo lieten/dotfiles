@@ -64,6 +64,14 @@ install_stage=(
   zsh
   hyprlock
   htop
+  fastfetch
+  librewolf-bin
+  nemo
+  okular
+  mattermost-desktop
+  vesktop-bin
+  keepassxc
+  telegram-desktop
 )
 
 for str in ${myArray[@]}; do
@@ -206,3 +214,6 @@ if [[ "$ISNVIDIA" == true ]]; then
 fi
 
 echo -e "Run 'stow .' to create symlinks for all of the config files."
+# TODO: Run stow automatically?
+# TODO: Replace individual install of packages to group call to yay?
+# TODO: Install hyprexpo automatically? If I even want to keep that lol
