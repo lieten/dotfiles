@@ -7,16 +7,16 @@ export LC_ALL=en_US.UTF-8
 
 # Define menu items and characters
 declare -A CHARS=(
-  ["a uml"]="ä"
-  ["o uml"]="ö"
-  ["u uml"]="ü"
-  ["A uml caps"]="Ä"
-  ["O uml caps"]="Ö"
-  ["U uml caps"]="Ü"
-  ["ß sharp s"]="ß"
+  ["a"]="ä"
+  ["o"]="ö"
+  ["u"]="ü"
+  ["A"]="Ä"
+  ["O"]="Ö"
+  ["U"]="Ü"
+  ["sz"]="ß"
 )
 
-CHOICE=$(printf '%s\n' "${!CHARS[@]}" | sort | wofi --dmenu --prompt "Pick:")
+CHOICE=$(printf '%s\n' "${!CHARS[@]}" | sort | wofi --dmenu --prompt "Umlaut-Picker:")
 
 if [[ -n "$CHOICE" ]]; then
   CHAR="${CHARS[$CHOICE]}"
