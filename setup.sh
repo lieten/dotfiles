@@ -97,7 +97,6 @@ show_progress() {
     sleep 2
   done
   echo -en "Done!\n"
-  sleep 2
 }
 
 # function that will test for a package and if not found it will attempt to install it
@@ -127,7 +126,6 @@ clear
 # let the user know that we will use sudo
 echo -e "$CNT - This script will run some commands that require sudo. You will be prompted to enter your password.
 If you are worried about entering your password then you may want to review the content of the script."
-#sleep 1
 
 # give the user an option to exit out
 read -rep $'[\e[1;33mACTION\e[0m] - Would you like to continue with the install (y,n) ' CONTINST
@@ -185,12 +183,10 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
   # Start the bluetooth service
   echo -e "$CNT - Starting the Bluetooth Service..."
   sudo systemctl enable --now bluetooth.service &>>$INSTLOG
-  #sleep 2
 
   # Enable the sddm login manager service
   echo -e "$CNT - Enabling the SDDM Service..."
   sudo systemctl enable sddm &>>$INSTLOG
-  #sleep 2
 
   # Clean out other portals
   echo -e "$CNT - Cleaning out conflicting xdg portals..."
