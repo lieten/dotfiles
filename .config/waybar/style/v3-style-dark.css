@@ -134,3 +134,7 @@ tooltip label{
     color: #a6e3a1;
     border-left: 0px;
 }
+
+#custom-notification {
+  font-family: "NotoSansMono Nerd Font";
+}
