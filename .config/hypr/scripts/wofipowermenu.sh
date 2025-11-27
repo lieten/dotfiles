@@ -22,5 +22,5 @@ if [[ -n "$CHOICE" ]]; then
   CHAR="${CHARS[$CHOICE]}"
   # Copy using Hyprland's environment
   echo -n "$CHAR" | dbus-run-session -- wl-copy
-  notify-send "Copied: $CHAR"
+  #notify-send "Copied: $CHAR"
 fi
