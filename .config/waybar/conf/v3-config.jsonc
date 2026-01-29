@@ -13,13 +13,14 @@
         //"custom/lock_screen",
         "hyprland/workspaces",
         "custom/myhyprv",
+        "custom/light_dark",
         "custom/updates",
         "custom/weather"
         //"wlr/taskbar"
     ],
     "modules-right": [
         "cpu",
-        "memory",
+        //"memory",
         //"disk",
         "temperature",
         "custom/power_profile",
@@ -31,7 +32,6 @@
         //"custom/updates",
         //"clock",
         //"custom/myhyprv",
-        "custom/light_dark",
         "custom/notification"
     ],
 
