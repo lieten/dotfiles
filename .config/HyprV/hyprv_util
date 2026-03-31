@@ -60,7 +60,7 @@ set_current_background() {
   #else
   #  swww img $SET_BG
   #fi
-  swww img ~/.config/HyprV/backgrounds/v4-background.jpg
+  awww img ~/.config/HyprV/backgrounds/v4-background.jpg
 }
 
 switch_version() {
@@ -101,9 +101,9 @@ switch_version() {
 
   #set the background
   if [ -z $SET_BG ]; then
-    swww img ~/.config/HyprV/backgrounds/$VERTO'background'$SWITCHTO.jpg --transition-fps 60 --transition-type wipe --transition-duration 2
+    awww img ~/.config/HyprV/backgrounds/$VERTO'background'$SWITCHTO.jpg --transition-fps 60 --transition-type wipe --transition-duration 2
   else
-    swww img $SET_BG --transition-fps 60 --transition-type wipe --transition-duration 2
+    awww img $SET_BG --transition-fps 60 --transition-type wipe --transition-duration 2
   fi
 
   #update the sddm image
