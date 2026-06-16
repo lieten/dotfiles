@@ -149,3 +149,5 @@ typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 #fortune | cowthink -f $(find $(readlink /usr/share/cows) -type f | shuf -n 1) | lolcat -f
 #cowfortune
 #fastfetch | lolcat -f
+
+export PATH="/home/lieten/.pixi/bin:$PATH"
