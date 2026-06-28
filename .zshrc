@@ -151,3 +151,5 @@ typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 #fastfetch | lolcat -f
 
 export PATH="/home/lieten/.pixi/bin:$PATH"
+
+. "$HOME/.local/bin/env"
