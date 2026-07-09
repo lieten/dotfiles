@@ -34,13 +34,20 @@ ln -sf ~/.config/mako/conf/config$SWITCHTO ~/.config/mako/config
 #    ln -sf ~/.config/HyprV/waybar/conf/mesu-met.jsonc ~/.config/HyprV/waybar/conf/mesu.jsonc
 #fi
 
-#set the xfce and GTK theme
+#cursor is mode-independent: always match the compositor (Future-cyan / 32)
+gsettings set org.gnome.desktop.interface cursor-theme "Future-cyan-cursors"
+gsettings set org.gnome.desktop.interface cursor-size 32
+xfconf-query -c xsettings -p /Gtk/CursorThemeName -n -t string -s "Future-cyan-cursors"
+xfconf-query -c xsettings -p /Gtk/CursorThemeSize -n -t int -s 32
+
+#set the xfce and GTK theme (icons breeze; widget theme stays Adwaita to keep
+#waybar workspace spacing unchanged — Breeze widens default button min-width)
 if [ $VER == "v4" ]; then
   xfconf-query -c xsettings -p /Net/IconThemeName -s "Papirus-Dark"
   gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 else
-  xfconf-query -c xsettings -p /Net/IconThemeName -s "Adwaita$SWITCHTO"
-  gsettings set org.gnome.desktop.interface icon-theme "Adwaita$SWITCHTO"
+  xfconf-query -c xsettings -p /Net/IconThemeName -s "breeze$SWITCHTO"
+  gsettings set org.gnome.desktop.interface icon-theme "breeze$SWITCHTO"
 fi
 
 xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita$SWITCHTO"
