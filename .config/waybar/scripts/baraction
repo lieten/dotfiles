@@ -40,15 +40,12 @@ gsettings set org.gnome.desktop.interface cursor-size 32
 xfconf-query -c xsettings -p /Gtk/CursorThemeName -n -t string -s "Future-cyan-cursors"
 xfconf-query -c xsettings -p /Gtk/CursorThemeSize -n -t int -s 32
 
-#set the xfce and GTK theme (icons breeze; widget theme stays Adwaita to keep
-#waybar workspace spacing unchanged — Breeze widens default button min-width)
-if [ $VER == "v4" ]; then
-  xfconf-query -c xsettings -p /Net/IconThemeName -s "Papirus-Dark"
-  gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
-else
-  xfconf-query -c xsettings -p /Net/IconThemeName -s "breeze$SWITCHTO"
-  gsettings set org.gnome.desktop.interface icon-theme "breeze$SWITCHTO"
-fi
+#set the xfce and GTK theme. Icons pinned to Adwaita (never flipped) so the
+#nm-applet wifi glyph falls through to the hicolor default (blue vertical bars)
+#instead of breeze/Papirus arcs. Widget theme stays Adwaita to keep waybar
+#workspace spacing unchanged — Breeze widens default button min-width.
+xfconf-query -c xsettings -p /Net/IconThemeName -s "Adwaita"
+gsettings set org.gnome.desktop.interface icon-theme "Adwaita"
 
 xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita$SWITCHTO"
 gsettings set org.gnome.desktop.interface gtk-theme "Adwaita$SWITCHTO"

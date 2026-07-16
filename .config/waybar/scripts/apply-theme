@@ -1,0 +1,33 @@
+#!/bin/sh
+# Sync the icon-theme + gtk-theme to the currently active waybar style variant.
+#
+# The waybar background lives in the git-tracked `style.css` symlink, but the
+# tray icon colour (nm-applet et al.) lives in gsettings/xfconf `icon-theme`.
+# baraction sets both together on a toggle click; nothing re-syncs them after a
+# reboot or `git pull`, so they drift and the wifi glyph goes dark-on-dark.
+# This derives the mode from the symlink and forces the theme to match, so the
+# committed style.css is the single source of truth. Run at login (execs.conf).
+#
+# Usage: apply-theme [sync]   (the arg is only for readability, it is ignored)
+
+NAME=$(basename "$(readlink -f ~/.config/waybar/style.css)")
+VER=${NAME%%-*}
+
+# "-dark" in the variant name means the dark bar -> light glyphs (Adwaita-dark).
+case "$NAME" in
+  *-dark*) SWITCHTO="-dark" ;;
+  *)       SWITCHTO="" ;;
+esac
+
+# Icons: pinned to Adwaita, never flipped. Adwaita (-> AdwaitaLegacy -> hicolor)
+# ships no nm-signal-* of its own, so nm-applet's wifi glyph falls through to the
+# hicolor default (blue vertical bars) instead of breeze/Papirus curved arcs.
+# The GTK *widget* theme still flips light/dark below; only icons are fixed.
+ICON="Adwaita"
+GTK="Adwaita$SWITCHTO"
+
+# Write both backends: an xsettings daemon is in use, and baraction sets both.
+xfconf-query -c xsettings -p /Net/IconThemeName -s "$ICON"
+xfconf-query -c xsettings -p /Net/ThemeName -s "$GTK"
+gsettings set org.gnome.desktop.interface icon-theme "$ICON"
+gsettings set org.gnome.desktop.interface gtk-theme "$GTK"
