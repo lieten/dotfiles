@@ -2,16 +2,32 @@
 # Sync the icon-theme + gtk-theme to the currently active waybar style variant.
 #
 # The waybar background lives in the git-tracked `style.css` symlink, but the
-# tray icon colour (nm-applet et al.) lives in gsettings/xfconf `icon-theme`.
-# baraction sets both together on a toggle click; nothing re-syncs them after a
-# reboot or `git pull`, so they drift and the wifi glyph goes dark-on-dark.
-# This derives the mode from the symlink and forces the theme to match, so the
-# committed style.css is the single source of truth. Run at login (execs.conf).
+# tray icon colour (nm-applet et al.) lives in the gsettings `icon-theme` key.
+# baraction sets both together on a toggle click; this derives the mode from the
+# symlink and forces the theme to match, so the committed style.css is the single
+# source of truth. Run at login (execs.conf).
+#
+# What actually kept flipping the glyph back to black on every boot was
+# HyprV/hyprv_util: its `setbg` entry point called update_theme, which re-derived
+# icon-theme as "breeze$SWITCHTO" -- but set_current_background has its get_theme
+# call commented out, so SWITCHTO was empty and it asserted plain `breeze`. Being
+# an `exec` (not exec-once) in execs.conf, it also re-ran on every hyprctl reload
+# and raced this script at login. update_theme now just calls this script, so
+# there is exactly one writer. Do not reintroduce a second one.
+#
+# Background, still load-bearing: kded6's gtkconfig module (kde-gtk-config) also
+# writes icon-theme, gtk-theme, gtk-{3,4}.0/settings.ini and xsettingsd.conf,
+# deriving them from kdeglobals -- which stock has no [Icons] section, so it
+# asserted its `breeze` default. setup.sh pins kdeglobals `[Icons] Theme=
+# breeze-dark` so the module writes the value we want. (Disabling the module
+# instead does not work: it is X-KDE-Kded-load-on-demand and autoloads despite
+# autoload=false.) A KDE settings GUI can rewrite that key back, so if the glyph
+# ever goes black again and hyprv_util is clean, check:
+#   kreadconfig6 --file kdeglobals --group Icons --key Theme   # want: breeze-dark
 #
 # Usage: apply-theme [sync]   (the arg is only for readability, it is ignored)
 
 NAME=$(basename "$(readlink -f ~/.config/waybar/style.css)")
-VER=${NAME%%-*}
 
 # "-dark" in the variant name means the dark bar -> light glyphs (Adwaita-dark).
 case "$NAME" in
@@ -19,15 +35,14 @@ case "$NAME" in
   *)       SWITCHTO="" ;;
 esac
 
-# Icons: pinned to Adwaita, never flipped. Adwaita (-> AdwaitaLegacy -> hicolor)
-# ships no nm-signal-* of its own, so nm-applet's wifi glyph falls through to the
-# hicolor default (blue vertical bars) instead of breeze/Papirus curved arcs.
-# The GTK *widget* theme still flips light/dark below; only icons are fixed.
-ICON="Adwaita"
+# Icons: pinned to breeze-dark. Breeze ships real (non-symbolic) nm-signal-*
+# icons, so the glyph colour is baked into the SVG rather than inherited from the
+# widget theme's fg: breeze is #232629 (black), breeze-dark is #fcfcfc. The bar is
+# always dark, so this never flips. Adwaita ships no nm-signal-* at all and falls
+# through to hicolor's *-symbolic set, which recolours to fg -- that was the
+# black-on-black glyph. The GTK *widget* theme still flips light/dark below.
+ICON="breeze-dark"
 GTK="Adwaita$SWITCHTO"
 
-# Write both backends: an xsettings daemon is in use, and baraction sets both.
-xfconf-query -c xsettings -p /Net/IconThemeName -s "$ICON"
-xfconf-query -c xsettings -p /Net/ThemeName -s "$GTK"
 gsettings set org.gnome.desktop.interface icon-theme "$ICON"
 gsettings set org.gnome.desktop.interface gtk-theme "$GTK"

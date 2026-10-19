@@ -19,21 +19,13 @@ update_theme() {
   #cursor is mode-independent: always match the compositor (Future-cyan / 32)
   gsettings set org.gnome.desktop.interface cursor-theme "Future-cyan-cursors"
   gsettings set org.gnome.desktop.interface cursor-size 32
-  xfconf-query -c xsettings -p /Gtk/CursorThemeName -n -t string -s "Future-cyan-cursors"
-  xfconf-query -c xsettings -p /Gtk/CursorThemeSize -n -t int -s 32
 
-  #set the xfce and GTK theme (icons breeze; widget theme stays Adwaita to keep
-  #waybar workspace spacing unchanged — Breeze widens default button min-width)
-  if [[ $VER == "v4" || $VERTO == "v4-" ]]; then
-    xfconf-query -c xsettings -p /Net/IconThemeName -s "Papirus-Dark"
-    gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
-  else
-    xfconf-query -c xsettings -p /Net/IconThemeName -s "breeze$SWITCHTO"
-    gsettings set org.gnome.desktop.interface icon-theme "breeze$SWITCHTO"
-  fi
-
-  xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita$SWITCHTO"
-  gsettings set org.gnome.desktop.interface gtk-theme "Adwaita$SWITCHTO"
+  #icon-theme/gtk-theme have exactly one writer: apply-theme derives both from
+  #the style.css symlink, so this cannot drift regardless of $SWITCHTO/$VER.
+  #This used to re-derive them here as "breeze$SWITCHTO"/"Adwaita$SWITCHTO", but
+  #the setbg path never calls get_theme (see set_current_background), so SWITCHTO
+  #was empty and it asserted plain `breeze` -- whose nm-signal-* icons are black.
+  ~/.config/waybar/scripts/apply-theme sync
 }
 
 get_ver() {

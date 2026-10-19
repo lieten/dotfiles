@@ -193,6 +193,32 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
   yay -R --noconfirm xdg-desktop-portal-gnome xdg-desktop-portal-gtk &>>$INSTLOG
 fi
 
+# Pin the GTK icon theme in kdeglobals. kded6's gtkconfig module (kde-gtk-config)
+# regenerates gtk-{3,4}.0/settings.ini and the gsettings icon-theme/gtk-theme keys
+# from kdeglobals, overwriting whatever waybar/scripts/apply-theme sets at login.
+# Stock kdeglobals has no [Icons] section, so the module asserted its `breeze`
+# default -- and breeze's nm-signal-* icons are #232629, i.e. black-on-black in
+# the tray. That was the long-standing "wifi icon is invisible" bug.
+#
+# Setting [Icons] Theme is the fix that actually holds: the module then writes the
+# value we want, so there is nothing to fight. Disabling the module instead does
+# NOT work -- it is marked X-KDE-Kded-load-on-demand and loads regardless of
+# `[Module-gtkconfig] autoload=false` in kded6rc (verified: it autoloads anyway).
+#
+# The cursor is the same bug: stock kcminputrc has no [Mouse] cursorTheme, so the
+# module wrote its breeze_cursors/24 default over the Future-cyan/32 that
+# hypr/modular/execs.conf sets. The compositor draws Future-Cyan via HYPRCURSOR_*,
+# but GTK apps only pick a cursor when they set one -- so hovering a clickable
+# waybar module swapped in a breeze pointer at the wrong size. Pinning it here
+# makes the module write Future-cyan-cursors/32 and the two finally agree.
+# (Xcursor theme ships in this repo at .local/share/icons/Future-cyan-cursors.)
+#
+# kdeglobals/kcminputrc are KDE runtime state, not stowed, so assert the keys here.
+echo -e "$CNT - Pinning the GTK icon + cursor themes (tray glyph and hover cursor)..."
+kwriteconfig6 --file kdeglobals --group Icons --key Theme breeze-dark
+kwriteconfig6 --file kcminputrc --group Mouse --key cursorTheme Future-cyan-cursors
+kwriteconfig6 --file kcminputrc --group Mouse --key cursorSize 32
+
 #TODO: Make prompt that asks whether or not this is wanted?
 echo -e "Installing oh-my-zsh and zsh plugins"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"                                       # install oh-my-zsh

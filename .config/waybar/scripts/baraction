@@ -12,6 +12,7 @@ if [[ $THEMEIS == "" ]]; then
   SWITCHTO="-dark"
   MODESTR="Dark"
 else
+  SWITCHTO=""
   MODESTR="Light"
 fi
 
@@ -37,17 +38,12 @@ ln -sf ~/.config/mako/conf/config$SWITCHTO ~/.config/mako/config
 #cursor is mode-independent: always match the compositor (Future-cyan / 32)
 gsettings set org.gnome.desktop.interface cursor-theme "Future-cyan-cursors"
 gsettings set org.gnome.desktop.interface cursor-size 32
-xfconf-query -c xsettings -p /Gtk/CursorThemeName -n -t string -s "Future-cyan-cursors"
-xfconf-query -c xsettings -p /Gtk/CursorThemeSize -n -t int -s 32
 
-#set the xfce and GTK theme. Icons pinned to Adwaita (never flipped) so the
-#nm-applet wifi glyph falls through to the hicolor default (blue vertical bars)
-#instead of breeze/Papirus arcs. Widget theme stays Adwaita to keep waybar
+#set the GTK theme. Icons pinned to breeze-dark (never flipped): breeze ships
+#real nm-signal-* icons with the colour baked in, and only the -dark variant is
+#light enough to read on the bar. Widget theme stays Adwaita to keep waybar
 #workspace spacing unchanged — Breeze widens default button min-width.
-xfconf-query -c xsettings -p /Net/IconThemeName -s "Adwaita"
-gsettings set org.gnome.desktop.interface icon-theme "Adwaita"
-
-xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita$SWITCHTO"
+gsettings set org.gnome.desktop.interface icon-theme "breeze-dark"
 gsettings set org.gnome.desktop.interface gtk-theme "Adwaita$SWITCHTO"
 
 #change the background image and be cool about it ;)
